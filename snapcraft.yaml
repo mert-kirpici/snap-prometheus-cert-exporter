@@ -1,0 +1,33 @@
+name: prometheus-cert-exporter
+base: core22
+version: 3.4.0
+summary: Single-line elevator pitch for your amazing snap
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+
+apps:
+  cert-exporter:
+    command: bin/cert-exporter
+    plugs:
+      - etc-ovn
+      - network
+      - network-bind
+
+plugs:
+  etc-ovn:
+    interface: system-files
+    read:
+      - /etc/ovn
+parts:
+  cert-exporter:
+    plugin: go
+    source: https://github.com/joe-elliott/cert-exporter.git
+    source-tag: cert-exporter-$SNAPCRAFT_PROJECT_VERSION
+    build-snaps:
+      - go
